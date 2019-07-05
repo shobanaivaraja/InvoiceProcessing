@@ -16,10 +16,18 @@ public class InvoiceProcessing {
 		Scanner scan = new Scanner(System.in);
 		String popHost = "pop.gmail.com";
 		String port = "995";
-		final String userName = "shobanak16115@gmail.com";
-		final String password = "Nakshsik16";
 		String host = "smtp.gmail.com";
 		String senderPort = "587";
+		Properties prop = new Properties();
+		String propFileName = "userCredentials.properties";
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+		if (inputStream != null) {
+			prop.load(inputStream);
+		} else {
+			throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+		}
+		String userName = prop.getProperty("username");
+		String password = prop.getProperty("password");
 
 		long invoiceId;
 		while (true) {
