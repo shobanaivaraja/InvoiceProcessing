@@ -13,7 +13,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 import database.AddInvoice;
 
-public class TextConverter implements AddInvoice{
+public class TextConverter {
 	
 	void convertToTextFile(String fileName) throws FileNotFoundException {
 		File pdfFileName = null;
@@ -63,7 +63,8 @@ public class TextConverter implements AddInvoice{
 
 				line = buffer.readLine();
 			}
-			AddInvoice.super.insertToDb(invoiceDate, invoiceNo, customerPO, total, address);
+			AddInvoice addInvoice=new AddInvoice();
+			addInvoice.insertToDb(invoiceDate, invoiceNo, customerPO, total, address);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
