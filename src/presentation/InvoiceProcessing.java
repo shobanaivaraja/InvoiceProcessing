@@ -18,7 +18,7 @@ public class InvoiceProcessing {
 		String popHost = "pop.gmail.com";
 		String port = "995";
 		final String userName = "shobanak16115@gmail.com";
-		final String password = "Nakshsik16";
+		final String password = "********";
 		String host = "smtp.gmail.com";
 		String senderPort = "587";
 		
