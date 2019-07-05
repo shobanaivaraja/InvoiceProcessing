@@ -13,27 +13,27 @@ public class InvoiceList {
 
 	public void listInvoice() {
 		Connection conn = null;
-		PreparedStatement stmt = null;
+		PreparedStatement pStatement = null;
 		InputStream inputStream = null;
 		ResultSet result = null;
 		try {
-			Properties prop = new Properties();
+			Properties database = new Properties();
 			String propFileName = "config.properties";
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 			if (inputStream != null) {
-				prop.load(inputStream);
+				database.load(inputStream);
 			} else {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 
-			String driver = prop.getProperty("driver");
-			String URL = prop.getProperty("URL");
-			String username = prop.getProperty("username");
-			String password = prop.getProperty("password");
+			String driver = database.getProperty("driver");
+			String URL = database.getProperty("URL");
+			String username = database.getProperty("username");
+			String password = database.getProperty("password");
 			Class.forName(driver);
 			conn = DriverManager.getConnection(URL, username, password);
-			stmt = conn.prepareCall("select * from invoice where approval_status=0");
-			result = stmt.executeQuery();
+			pStatement = conn.prepareCall("select * from invoice where approval_status=0");
+			result = pStatement.executeQuery();
 
 			if(!result.isBeforeFirst()){
 				System.out.println("No invoices to be approved");
@@ -57,8 +57,8 @@ public class InvoiceList {
 			try {
 				if (result != null)
 					result.close();
-				if (stmt != null)
-					stmt.close();
+				if (pStatement != null)
+					pStatement.close();
 				if (conn != null)
 					conn.close();
 				inputStream.close();
