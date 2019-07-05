@@ -16,33 +16,33 @@ public class UpdateInvoice {
 
 	public long performApproval() throws IOException {
 		Connection conn = null;
-		PreparedStatement stmt = null;
+		PreparedStatement pStatement = null;
 		InputStream inputStream = null;
 		long invoiceId = 0;
 		scanner = new Scanner(System.in);
 		try {
-			Properties prop = new Properties();
+			Properties database = new Properties();
 			String propFileName = "config.properties";
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
 			if (inputStream != null) {
-				prop.load(inputStream);
+				database.load(inputStream);
 			} else {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 
-			String driver = prop.getProperty("driver");
-			String URL = prop.getProperty("URL");
-			String username = prop.getProperty("username");
-			String password = prop.getProperty("password");
+			String driver = database.getProperty("driver");
+			String URL = database.getProperty("URL");
+			String username = database.getProperty("username");
+			String password = database.getProperty("password");
 			Class.forName(driver);
 			conn = DriverManager.getConnection(URL, username, password);
 			System.out.println("Enter Invoice ID");
 			invoiceId = scanner.nextLong();
 
-			stmt = conn.prepareStatement("Update invoice set approval_status=1 where invoiceNum=?");
-			stmt.setLong(1, invoiceId);
-			int isUpdate = stmt.executeUpdate();
+			pStatement = conn.prepareStatement("Update invoice set approval_status=1 where invoiceNum=?");
+			pStatement.setLong(1, invoiceId);
+			int isUpdate = pStatement.executeUpdate();
 			if (isUpdate == 0)
 				return -1;
 		} catch (Exception e) {
@@ -50,8 +50,8 @@ public class UpdateInvoice {
 		} finally {
 
 			try {
-				if (stmt != null)
-					stmt.close();
+				if (pStatement != null)
+					pStatement.close();
 				if (conn != null)
 					conn.close();
 				inputStream.close();
