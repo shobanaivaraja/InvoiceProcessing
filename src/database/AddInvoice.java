@@ -15,20 +15,20 @@ public class AddInvoice {
 		PreparedStatement pStatement = null;
 		InputStream inputStream = null;
 		try {
-			Properties properties = new Properties();
+			Properties database = new Properties();
 			String propFileName = "config.properties";
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
 			if (inputStream != null) {
-				prop.load(inputStream);
+				database.load(inputStream);
 			} else {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 
-			String driver = properties.getProperty("driver");
-			String URL = properties.getProperty("URL");
-			String username = properties.getProperty("username");
-			String password = properties.getProperty("password");
+			String driver = database.getProperty("driver");
+			String URL = database.getProperty("URL");
+			String username = database.getProperty("username");
+			String password = database.getProperty("password");
 			Class.forName(driver);
 			conn = DriverManager.getConnection(URL, username, password);
 			pStatement = conn.prepareStatement(
