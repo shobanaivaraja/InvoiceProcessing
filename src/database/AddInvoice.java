@@ -9,13 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public interface AddInvoice {
-	default void insertToDb(String invoiceDate, Long invoiceNo, String customerPO, String totalInvoice, String soldTo) {
+public class AddInvoice {
+	public void insertToDb(String invoiceDate, Long invoiceNo, String customerPO, String totalInvoice, String soldTo) {
 		Connection conn = null;
-		PreparedStatement stmt = null;
+		PreparedStatement pStatement = null;
 		InputStream inputStream = null;
 		try {
-			Properties prop = new Properties();
+			Properties properties = new Properties();
 			String propFileName = "config.properties";
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
@@ -25,26 +25,26 @@ public interface AddInvoice {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 
-			String driver = prop.getProperty("driver");
-			String URL = prop.getProperty("URL");
-			String username = prop.getProperty("username");
-			String password = prop.getProperty("password");
+			String driver = properties.getProperty("driver");
+			String URL = properties.getProperty("URL");
+			String username = properties.getProperty("username");
+			String password = properties.getProperty("password");
 			Class.forName(driver);
 			conn = DriverManager.getConnection(URL, username, password);
-			stmt = conn.prepareStatement(
+			pStatement = conn.prepareStatement(
 					"insert into invoice(invoiceNum,invoiceDate,customer_PO,Amount,SoldTo) values(?,?,?,?,?)");
-			stmt.setLong(1, invoiceNo);
-			stmt.setString(2, invoiceDate);
-			stmt.setString(3, customerPO);
-			stmt.setString(4, totalInvoice);
-			stmt.setString(5, soldTo);
-			stmt.execute();
+			pStatement.setLong(1, invoiceNo);
+			pStatement.setString(2, invoiceDate);
+			pStatement.setString(3, customerPO);
+			pStatement.setString(4, totalInvoice);
+			pStatement.setString(5, soldTo);
+			pStatement.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (stmt != null)
-					stmt.close();
+				if (pStatement != null)
+					pStatement.close();
 				if (conn != null)
 					conn.close();
 				inputStream.close();
