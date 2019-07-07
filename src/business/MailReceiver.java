@@ -18,12 +18,12 @@ import javax.mail.Store;
 
 public class MailReceiver {
 	public static void receiveEmail(String pop3Host, String mailStoreType, String userName, String password) {
-		Properties props = new Properties();
-		props.put("mail.store.protocol", "pop3");
-		props.put("mail.pop3.host", pop3Host);
-		props.put("mail.pop3.port", "995");
-		props.put("mail.pop3.starttls.enable", "true");
-		Session session = Session.getInstance(props);
+		Properties mailProperties = new Properties();
+		mailProperties.put("mail.store.protocol", "pop3");
+		mailProperties.put("mail.pop3.host", pop3Host);
+		mailProperties.put("mail.pop3.port", "995");
+		mailProperties.put("mail.pop3.starttls.enable", "true");
+		Session session = Session.getInstance(mailProperties);
 		Folder emailFolder = null;
 		Store store = null;
 		String fileName = "";
