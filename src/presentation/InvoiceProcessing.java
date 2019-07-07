@@ -18,16 +18,16 @@ public class InvoiceProcessing {
 		String port = "995";
 		String host = "smtp.gmail.com";
 		String senderPort = "587";
-		Properties prop = new Properties();
+		Properties userProperties = new Properties();
 		String propFileName = "userCredentials.properties";
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 		if (inputStream != null) {
-			prop.load(inputStream);
+			userProperties.load(inputStream);
 		} else {
 			throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 		}
-		String userName = prop.getProperty("username");
-		String password = prop.getProperty("password");
+		String userName = userProperties.getProperty("username");
+		String password = userProperties.getProperty("password");
 
 		long invoiceId;
 		while (true) {
@@ -61,6 +61,9 @@ public class InvoiceProcessing {
 			case 4:
 				System.exit(0);
 				break;
+			default:
+				System.out.println("Choose a valid option");
+					
 			}
 		}
 	}
