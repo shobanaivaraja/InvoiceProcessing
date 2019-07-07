@@ -12,14 +12,12 @@ import java.util.Scanner;
 
 public class UpdateInvoice {
 
-	private Scanner scanner;
-
 	public long performApproval() throws IOException {
 		Connection conn = null;
 		PreparedStatement pStatement = null;
 		InputStream inputStream = null;
 		long invoiceId = 0;
-		scanner = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in);
 		try {
 			Properties database = new Properties();
 			String propFileName = "config.properties";
